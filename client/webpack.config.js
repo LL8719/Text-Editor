@@ -1,30 +1,71 @@
+// Import dependencies
 const HtmlWebpackPlugin = require('html-webpack-plugin');
 const WebpackPwaManifest = require('webpack-pwa-manifest');
 const path = require('path');
 const { InjectManifest } = require('workbox-webpack-plugin');
 
 // TODO: Add and configure workbox plugins for a service worker and manifest file.
+
 // TODO: Add CSS loaders and babel to webpack.
 
+// Export a function that returns the Webpack configuration object
 module.exports = () => {
-  return {
-    mode: 'development',
-    entry: {
-      main: './src/js/index.js',
-      install: './src/js/install.js'
-    },
-    output: {
-      filename: '[name].bundle.js',
-      path: path.resolve(__dirname, 'dist'),
-    },
-    plugins: [
-      
-    ],
+	return {
+		// Set the mode to development
+		mode: 'development',
 
-    module: {
-      rules: [
-        
-      ],
-    },
-  };
+		// Define the entry points of the application
+		entry: {
+			main: './src/js/index.js',
+			install: './src/js/install.js',
+		},
+
+		// Define the output configuration for the compiled files
+		output: {
+			filename: '[name].bundle.js',
+			path: path.resolve(__dirname, 'dist'),
+		},
+
+		// Define the plugins to use with Webpack
+		plugins: [
+			// Use HtmlWebpackPlugin to generate an HTML file with references to the output JavaScript files
+			new HtmlWebpackPlugin({
+				template: './index.html',
+				title: 'Webpack Plugin',
+			}),
+
+			// Use InjectManifest from workbox-webpack-plugin to generate a service worker from the specified file
+			new InjectManifest({
+				swSrc: './src/sw.js',
+				swDest: 'service-worker.js',
+			}),
+		],
+
+		// Define the loaders to use for different file types
+		module: {
+			rules: [
+				// Use style-loader and css-loader for CSS files
+				{
+					test: /\.css$/i,
+					use: ['style-loader', 'css-loader'],
+				},
+
+				// Use babel-loader to transpile JavaScript files
+				{
+					test: /\.m?js$/,
+					exclude: /(node_modules|bower_components)/,
+					use: {
+						loader: 'babel-loader',
+						options: {
+							presets: ['@babel/preset-env'],
+							plugins: [
+								'@babel/plugin-proposal-object-rest-spread',
+								'@babel/transform-runtime',
+							],
+						},
+					},
+				},
+			],
+		},
+	};
 };
