@@ -33,7 +33,7 @@ registerRoute(
 		request.destination === 'script' ||
 		request.destination === 'style' ||
 		request.destination === 'font',
-	new CacheFirst({
+	new StaleWhileRevalidate({
 		cacheName: 'my-asset-cache',
 		plugins: [
 			new CacheableResponsePlugin({
