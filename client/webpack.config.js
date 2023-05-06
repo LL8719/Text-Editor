@@ -36,7 +36,7 @@ module.exports = () => {
 
 			// Use InjectManifest from workbox-webpack-plugin to generate a service worker from the specified file
 			new InjectManifest({
-				swSrc: './src/sw.js',
+				swSrc: './src-sw.js',
 				swDest: 'service-worker.js',
 			}),
 			new WebpackPwaManifest({
