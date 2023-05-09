@@ -31,19 +31,19 @@ module.exports = () => {
 			// Use HtmlWebpackPlugin to generate an HTML file with references to the output JavaScript files
 			new HtmlWebpackPlugin({
 				template: './index.html',
-				title: 'Webpack Plugin',
+				title: 'J.A.T.E',
 			}),
 
 			// Use InjectManifest from workbox-webpack-plugin to generate a service worker from the specified file
 			new InjectManifest({
 				swSrc: './src-sw.js',
-				swDest: 'service-worker.js',
+				swDest: 'src-sw.js',
 			}),
 			new WebpackPwaManifest({
 				fingerprints: false,
 				inject: true,
 				name: 'Text-Editor',
-				short_name: 'JATE',
+				short_name: 'J.A.T.E',
 				description: 'Text Editor',
 				background_color: '#225ca3',
 				theme_color: '#225ca3',
@@ -72,7 +72,7 @@ module.exports = () => {
 				// Use babel-loader to transpile JavaScript files
 				{
 					test: /\.m?js$/,
-					exclude: /(node_modules|bower_components)/,
+					exclude: /node_modules/,
 					use: {
 						loader: 'babel-loader',
 						options: {
